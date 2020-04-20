@@ -2,7 +2,7 @@
 
 ## A Python FlipDot Controller Library
 
-![more cowbell](https://img.shields.io/badge/more-cowbell-brightgreen)
+![more cowbell](https://img.shields.io/badge/more-cowbell-brightgreen) ![licence](https://img.shields.io/pypi/l/flippydot?color=brightgreen) ![downloads](https://img.shields.io/pypi/dm/flippydot?color=brightgreen) ![latest version](https://img.shields.io/pypi/v/flippydot?color=brightgreen)
 
 FlipPyDot is a Python package that can be used to control [AlfaZeta](https://flipdots.com/) FlipDots.  This packages is aimed at controlling their [XY5](https://flipdots.com/en/products-services/flip-dot-boards-xy5/) boards, which can come in a number of different sizes, and are all driven over a RS-485 Serial bus, using a fairly simple [protocol](./resources/Flip_dots_protocols_7x7_7x14_7x28_May_2017.pdf).
 
