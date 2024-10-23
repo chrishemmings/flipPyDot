@@ -14,7 +14,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
      name='flippydot',
-     version='0.1.0',
+     version='0.1.1',
      author="Chris Hemmings",
      description="A package that can be used to control AlfaZeta FlipDots",
      long_description=long_description,

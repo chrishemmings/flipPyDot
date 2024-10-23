@@ -1,6 +1,8 @@
-import numpy as np
-import flippydot.module as flippydot
 import sys
+
+import numpy as np
+
+from .flippymodule import FlippyModule
 
 try:
     import cv2
@@ -9,8 +11,8 @@ except Exception:
     # to display the screen preview if the user asks for it
     pass
 
-class Panel:
 
+class Panel:
     valid_module_rotations = [0, 90, 180, 270]
     module_rotation = 0
     module_width = 0
@@ -18,8 +20,15 @@ class Panel:
     modules = None
     panel_id = 0
 
-    def __init__(self, layout, module_width, module_height, module_rotation=0, screen_preview=False):
-
+    def __init__(self, layout, module_width: int, module_height: int, module_rotation: int = 0,
+                 screen_preview: bool = False):
+        """
+        :param layout: An array structure of the panel layout with panel id's
+        :param module_width: Module width, normally 28
+        :param module_height: Module height, normally 7
+        :param module_rotation: Rotation of the module, i.e 0, 90, 180 or 270
+        :param screen_preview: If cv2 is installed, can draw preview on screen
+        """
         if 'cv2' not in sys.modules and screen_preview:
             print("Screen preview requested, but cv2 not loaded, previews will not be generated")
             screen_preview = False
@@ -41,7 +50,7 @@ class Panel:
             module_row = np.array([])
 
             for cell in row:
-                module_row = np.append(module_row, flippydot.Module(module_width, module_height, cell))
+                module_row = np.append(module_row, FlippyModule(module_width, module_height, cell))
 
             if self.modules is None:
                 self.modules = np.array([module_row])
@@ -91,21 +100,21 @@ class Panel:
 
     def draw_preview(self):
         panel_content = self.get_content()
-        cv2.imshow('FlipDisc Preview',np.uint8(panel_content * 255))
+        cv2.imshow('FlipDisc Preview', np.uint8(panel_content * 255))
         cv2.waitKey(1)
 
-    def apply_frame(self, matrixData):
+    def apply_frame(self, matrix_data):
 
         # Check shapes match
         # print((self.get_total_height(), self.get_total_width(), 1) == np.shape(matrixData))
 
         # Split the panel into rows
-        row_split_data = np.split(matrixData, np.shape(self.modules)[0], 0)
+        row_split_data = np.split(matrix_data, np.shape(self.modules)[0], 0)
 
         row_count = 0
 
         for row_data in row_split_data:
-            # Split the row verticalls (axis=1)
+            # Split the row verticals (axis=1)
             module_data_split = np.split(row_data, np.shape(self.modules)[1], 1)
 
             # Loop module data
@@ -126,7 +135,7 @@ class Panel:
             row_count = row_count + 1
 
         # Draw screen preview if required
-        if self.screen_preview == True:
+        if self.screen_preview:
             self.draw_preview()
 
         serial_data = np.array([])

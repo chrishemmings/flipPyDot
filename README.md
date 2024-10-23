@@ -28,7 +28,7 @@ Optionally, install the [opencv-python](https://pypi.org/project/opencv-python) 
 
 ```python3
 
-from flippydot import *
+from flippydot import Panel
 import numpy as np
 import time, serial
 
@@ -43,7 +43,7 @@ ser = serial.Serial(
 )
 
 # Configure our FlipDot panel
-panel = flippydot.Panel([
+panel = Panel([
     [1],
     [2],
     [3],
