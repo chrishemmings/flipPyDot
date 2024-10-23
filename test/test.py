@@ -1,8 +1,8 @@
-from flippydot import *
+from flippydot import Panel
 import numpy as np
 import time
 
-panel = flippydot.Panel([
+panel = Panel([
     [1],
     [2],
     [3],

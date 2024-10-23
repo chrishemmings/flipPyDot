@@ -1,19 +1,22 @@
-from flippydot import *
+import serial
+import time
+
 import numpy as np
-import time, serial
+
+from flippydot import Panel
 
 # Setup our serial port connection
 ser = serial.Serial(
-	port='/dev/ttyUSB0',
-	baudrate=57600,
-	timeout=1,
-	parity=serial.PARITY_NONE,
-	stopbits=serial.STOPBITS_ONE,
-	bytesize=serial.EIGHTBITS
+    port='/dev/ttyUSB0',
+    baudrate=57600,
+    timeout=1,
+    parity=serial.PARITY_NONE,
+    stopbits=serial.STOPBITS_ONE,
+    bytesize=serial.EIGHTBITS
 )
 
 # Configure our FlipDot panel
-panel = flippydot.Panel([
+panel = Panel([
     [1],
     [2],
     [3],
@@ -40,10 +43,10 @@ while 1:
         ser.write(serial_data)
         time.sleep(frame_delay)
 
-    # Move a horizonal line accross the panel
+    # Move a horizontal line across the panel
     for i in range(panel.get_total_width()):
         frame = np.zeros((panel.get_total_height(), panel.get_total_width()), dtype=np.uint8)
-        frame[:,i] = 1
+        frame[:, i] = 1
         serial_data = panel.apply_frame(frame)
         ser.write(serial_data)
         time.sleep(frame_delay)
@@ -51,14 +54,14 @@ while 1:
     # Display a checkerboard pattern on the screen, and then invert the pattern 10 times
     for i in range(10):
         frame = np.zeros((panel.get_total_height(), panel.get_total_width()), dtype=np.uint8)
-        frame[1::2,::2] = 1
-        frame[::2,1::2] = 1
+        frame[1::2, ::2] = 1
+        frame[::2, 1::2] = 1
         serial_data = panel.apply_frame(frame)
         ser.write(serial_data)
         time.sleep(frame_delay)
         frame = np.ones((panel.get_total_height(), panel.get_total_width()), dtype=np.uint8)
-        frame[1::2,::2] = 0
-        frame[::2,1::2] = 0
+        frame[1::2, ::2] = 0
+        frame[::2, 1::2] = 0
         serial_data = panel.apply_frame(frame)
         ser.write(serial_data)
         time.sleep(frame_delay)
@@ -66,7 +69,7 @@ while 1:
     # Move a vertical line down the panel
     for i in range(panel.get_total_height()):
         frame = np.zeros((panel.get_total_height(), panel.get_total_width()), dtype=np.uint8)
-        frame[i,:] = 1
+        frame[i, :] = 1
         serial_data = panel.apply_frame(frame)
         ser.write(serial_data)
         time.sleep(frame_delay)
